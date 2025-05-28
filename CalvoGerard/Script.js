@@ -13,6 +13,7 @@ let vaixellSeleccionat = null;
 let orientacioVaixell = 'V';
 let modeJoc = "colocacio";
 let tornJugador = true;
+let jocAcabat = false;
 
 let llistaVaixells = JSON.parse(jsonVaixells);
 
@@ -55,10 +56,49 @@ mostrartaulellHTML(taulellIA, contenidorIA, false);
 function atacIA() {
     let disparIA = taulell.generarAtacIA();
     mostrartaulellHTML(taulell, contenidorJugador);
+    
+    // Comprovar si la IA ha guanyat
+    if (taulell.comprovarEstatPartida()) {
+        finalitzarJoc("IA");
+    }
+    
     return disparIA;
 }
 
 window.atacIA = atacIA;
+
+function finalitzarJoc(guanyador) {
+    jocAcabat = true;
+    modeJoc = "acabat";
+    
+    // Mostrar missatge de final de joc
+    const indicador = document.getElementById('indicador-torn');
+    if (guanyador === "Jugador") {
+        indicador.textContent = "🎉 Has guanyat! Felicitats! 🎉";
+        indicador.style.color = "#00aa00";
+        indicador.style.fontWeight = "bold";
+        indicador.style.fontSize = "1.3rem";
+    } else if (guanyador === "IA") {
+        indicador.textContent = "😔 Has perdut! La IA ha guanyat! 😔";
+        indicador.style.color = "#cc0000";
+        indicador.style.fontWeight = "bold";
+        indicador.style.fontSize = "1.3rem";
+    }
+    
+    // Afegir botó per reiniciar
+    setTimeout(() => {
+        const botoReiniciar = document.createElement('button');
+        botoReiniciar.textContent = "Nova Partida";
+        botoReiniciar.style.fontSize = "1.1rem";
+        botoReiniciar.style.padding = "12px 24px";
+        botoReiniciar.style.marginTop = "20px";
+        botoReiniciar.addEventListener('click', () => {
+            location.reload(); // Recarrega la pàgina per començar una nova partida
+        });
+        
+        document.getElementById('botons').appendChild(botoReiniciar);
+    }, 1000);
+}
 
 function mostrartaulellHTML(taulell, contenidor, esJugador = true) {
     contenidor.innerHTML = '';
@@ -91,19 +131,29 @@ function mostrartaulellHTML(taulell, contenidor, esJugador = true) {
                 });
             }
 
-            if (!esJugador && modeJoc === "atac") {
+            if (!esJugador && modeJoc === "atac" && !jocAcabat) {
                 casellaDiv.addEventListener("click", function (event) {
                     if (!tornJugador) return;
                     let disparJugador = taulellIA.rebreTir(i, j);
                     mostrartaulellHTML(taulellIA, contenidorIA, false);
+                    
+                    // Comprovar si el jugador ha guanyat
+                    if (taulellIA.comprovarEstatPartida()) {
+                        finalitzarJoc("Jugador");
+                        return;
+                    }
+                    
                     if (disparJugador === "aigua") {
                         tornJugador = false;
                         actualitzarIndicadorTorn();
                         function ferDisparIA() {
                             setTimeout(() => {
+                                if (jocAcabat) return; // Evitar que la IA continuï si el joc ja ha acabat
                                 let resultat = atacIA();
                                 if (resultat === "tocat" || resultat === "enfonsat") {
-                                    ferDisparIA();
+                                    if (!jocAcabat) { // Només continuar si el joc no ha acabat
+                                        ferDisparIA();
+                                    }
                                 } else {
                                     tornJugador = true;
                                     actualitzarIndicadorTorn();
@@ -127,6 +177,8 @@ function mostrartaulellHTML(taulell, contenidor, esJugador = true) {
 }
 
 function actualitzarIndicadorTorn() {
+    if (jocAcabat) return; // No actualitzar si el joc ha acabat
+    
     const indicador = document.getElementById('indicador-torn');
     indicador.textContent = `Torn: ${tornJugador ? 'Jugador' : 'IA'}`;
 }

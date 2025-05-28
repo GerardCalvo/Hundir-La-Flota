@@ -187,8 +187,6 @@ export class Taulell {
             }
         }
     
-        // Un cop acabat el torn, comprovem si la partida ha acabat
-        this.comprovarEstatPartida();
         return resultat;
     }
 
@@ -201,6 +199,9 @@ export class Taulell {
                 vaixellsEnfonsats++;
             }
         }
+        
+        // Si tots els vaixells estan enfonsats, retorna true
+        return vaixellsEnfonsats === numVaixells;
     }
 
     generarAtacIA() {
