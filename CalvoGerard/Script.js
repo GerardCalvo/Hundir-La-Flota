@@ -71,32 +71,31 @@ function finalitzarJoc(guanyador) {
     jocAcabat = true;
     modeJoc = "acabat";
     
-    // Mostrar missatge de final de joc
+    document.getElementById('taulell1').classList.add('taulell-desactivat');
+    document.getElementById('taulell2').classList.add('taulell-desactivat');
+    
     const indicador = document.getElementById('indicador-torn');
+    indicador.classList.add('missatge-final');
+    
     if (guanyador === "Jugador") {
         indicador.textContent = "🎉 Has guanyat! Felicitats! 🎉";
-        indicador.style.color = "#00aa00";
-        indicador.style.fontWeight = "bold";
-        indicador.style.fontSize = "1.3rem";
+        indicador.classList.add('victoria');
     } else if (guanyador === "IA") {
         indicador.textContent = "😔 Has perdut! La IA ha guanyat! 😔";
-        indicador.style.color = "#cc0000";
-        indicador.style.fontWeight = "bold";
-        indicador.style.fontSize = "1.3rem";
+        indicador.classList.add('derrota');
     }
     
-    // Afegir botó per reiniciar
     setTimeout(() => {
         const botoReiniciar = document.createElement('button');
         botoReiniciar.textContent = "Nova Partida";
-        botoReiniciar.style.fontSize = "1.1rem";
-        botoReiniciar.style.padding = "12px 24px";
-        botoReiniciar.style.marginTop = "20px";
+        botoReiniciar.classList.add('boto-reiniciar');
         botoReiniciar.addEventListener('click', () => {
-            location.reload(); // Recarrega la pàgina per començar una nova partida
+            location.reload();
         });
         
-        document.getElementById('botons').appendChild(botoReiniciar);
+        const contenidorBotons = document.getElementById('botons');
+        contenidorBotons.classList.add('joc-acabat');
+        contenidorBotons.appendChild(botoReiniciar);
     }, 1000);
 }
 

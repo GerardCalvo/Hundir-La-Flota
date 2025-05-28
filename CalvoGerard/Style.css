@@ -202,3 +202,116 @@ button:hover:not(:disabled) {
         min-width: 110px;
     }
 }
+
+/* Estils per al final de partida */
+
+/* Missatge de victòria */
+#indicador-torn.victoria {
+    color: #00aa00;
+    font-weight: bold;
+    font-size: 1.3rem;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+/* Missatge de derrota */
+#indicador-torn.derrota {
+    color: #cc0000;
+    font-weight: bold;
+    font-size: 1.3rem;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+/* Botó per reiniciar partida */
+.boto-reiniciar {
+    background-color: #28a745;
+    border: none;
+    color: white;
+    padding: 12px 24px;
+    margin-top: 20px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+    min-width: 150px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.boto-reiniciar:hover {
+    background-color: #218838;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.boto-reiniciar:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Estils per al contenidor de botons quan acaba la partida */
+#botons.joc-acabat {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Animació per al missatge de final */
+@keyframes apareix {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.missatge-final {
+    animation: apareix 0.5s ease-out;
+}
+
+/* Efecte de pulsació per als emojis */
+@keyframes pulsacio {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+#indicador-torn.victoria,
+#indicador-torn.derrota {
+    animation: pulsacio 2s infinite;
+}
+
+/* Desactivar interacció amb els taulells quan acaba el joc */
+.taulell-desactivat .casella {
+    pointer-events: none;
+    cursor: default;
+}
+
+.taulell-desactivat .casella:hover {
+    background-color: inherit;
+}
+
+/* Estil per quan el joc està acabat - lleugera opacitat */
+.joc-acabat .casella {
+    opacity: 0.8;
+}
+
+/* Responsive per a pantalles petites */
+@media (max-width: 700px) {
+    #indicador-torn.victoria,
+    #indicador-torn.derrota {
+        font-size: 1.1rem;
+    }
+    
+    .boto-reiniciar {
+        padding: 10px 20px;
+        font-size: 1rem;
+        min-width: 130px;
+    }
+}
