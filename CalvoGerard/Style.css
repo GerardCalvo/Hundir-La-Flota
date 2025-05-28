@@ -1,0 +1,204 @@
+/* Reset bàsic */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Cos i fons */
+body {
+    background-color: #e0f0ff;
+    color: #004080;
+    padding: 20px;
+    user-select: none;
+}
+
+/* Títol principal */
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+#botons {
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* espai entre botons */
+  margin: 20px 0; /* marges verticals */
+}
+
+/* Botons */
+button {
+    background-color: #007acc;
+    border: none;
+    color: white;
+    padding: 10px 18px;
+    margin: 0 10px 10px 0;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    min-width: 130px;
+}
+
+button:disabled {
+    background-color: #a0a0a0;
+    cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
+    background-color: #005f99;
+}
+
+/* Indicador de torn */
+#indicador-torn {
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+
+/* Contenidor del joc */
+.joc {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* Contenidor vaixells (botons) */
+#vaixells {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 160px;
+}
+
+/* Taulell */
+#taulell1, #taulell2 {
+    display: grid;
+    grid-template-columns: repeat(10, 35px);
+    grid-template-rows: repeat(10, 35px);
+    gap: 3px;
+    background-color: #005f99;
+    padding: 6px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px #00336688;
+}
+
+/* Casella bàsica */
+.casella {
+    width: 35px;
+    height: 35px;
+    border-radius: 4px;
+    box-shadow: inset 0 0 5px #00336688;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 18px;
+    user-select: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Estat buida - aigua */
+.casella.buida {
+    background-color: #cce6ff;
+    border: 1px solid #99ccff;
+    color: transparent;
+}
+
+.casella.buida:hover {
+    background-color: #99ccff;
+}
+
+/* Casella ocupada (vaixell) - només visible al taulell del jugador */
+#taulell1 .casella.ocupada.buida {
+    background-color: #007acc;
+    border: 1px solid #005f99;
+    color: transparent;
+}
+
+#taulell1 .casella.ocupada.buida:hover {
+    background-color: #005f99;
+}
+
+/* Casella tocada (vaixell tocada) */
+.casella.tocat {
+    background-color: #ff6666;
+    border: 1px solid #cc0000;
+    color: white;
+}
+
+/* Casella enfonsada */
+.casella.enfonsat {
+    background-color: #990000;
+    border: 1px solid #660000;
+    color: white;
+}
+
+/* Casella aigua disparada */
+.casella.aigua {
+    background-color: #99ccff;
+    border: 1px solid #3399ff;
+    color: transparent;
+    cursor: default;
+}
+
+/* Casella aigua disparada amb creu (pintem una creu amb pseudo-element) */
+.casella.aigua::after {
+    content: "";
+    width: 15px;
+    height: 15px;
+    border-left: 2px solid #3366cc;
+    border-bottom: 2px solid #3366cc;
+    transform: rotate(-45deg);
+    display: block;
+    margin: 0 auto;
+}
+
+/* Estil per lletres de vaixell a les caselles del jugador i quan estan enfonsades */
+.casella.ocupada.buida,
+.casella.enfonsat {
+    color: white;
+    text-shadow: 1px 1px 2px #0008;
+}
+
+/* Layout responsive (menys de 700px) */
+@media (max-width: 700px) {
+    .joc {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    #vaixells {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        min-width: auto;
+    }
+
+    #taulell1, #taulell2 {
+        grid-template-columns: repeat(10, 28px);
+        grid-template-rows: repeat(10, 28px);
+        gap: 2px;
+        padding: 4px;
+    }
+
+    .casella {
+        width: 28px;
+        height: 28px;
+        font-size: 14px;
+    }
+
+    button {
+        padding: 8px 14px;
+        font-size: 0.9rem;
+        min-width: 110px;
+    }
+}
