@@ -238,15 +238,27 @@ function recuperartaulellsDeAPI(partida) {
     let dadestaulellJugador = JSON.parse(partida.tableroJugador);
     let dadestaulellIA = JSON.parse(partida.tableroIA);
 
-    let taulell = new Taulell(10);
+    // Actualitzar variables globals
     taulell.mida = dadestaulellJugador.mida;
     taulell.caselles = dadestaulellJugador.caselles;
     taulell.vaixells = dadestaulellJugador.vaixells;
-    mostrartaulellHTML(taulell, document.getElementById('taulell1'));
 
-    let taulellIA = new Taulell(10);
     taulellIA.mida = dadestaulellIA.mida;
     taulellIA.caselles = dadestaulellIA.caselles;
     taulellIA.vaixells = dadestaulellIA.vaixells;
+
+    // Ajustar estat del joc a mode atac i torn jugador
+    modeJoc = "atac";
+    tornJugador = true;
+    actualitzarIndicadorTorn();
+
+    // Actualitzar la visualització
+    mostrartaulellHTML(taulell, document.getElementById('taulell1'));
     mostrartaulellHTML(taulellIA, document.getElementById('taulell2'), false);
+
+    // Desactivar botons de vaixells perquè ja s'han col·locat
+    for (let vaixell of llistaVaixells) {
+        let boto = document.getElementById(vaixell.nom.toLowerCase());
+        if (boto) boto.disabled = true;
+    }
 }
